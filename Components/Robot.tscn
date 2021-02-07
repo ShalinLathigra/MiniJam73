@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Components/Robot.gd" type="Script" id=1]
+[ext_resource path="res://Resources/RobotFrames.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://FloorPuff.png" type="Texture" id=3]
+[ext_resource path="res://jump_11.wav" type="AudioStream" id=4]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 5.60947
+height = 20.2456
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 23.8753
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.339773 ), 0.0, 0.0, 0, 0, Vector2( 0.439919, 0.539773 ), -2.5294, -2.5294, 0, 0, Vector2( 0.810591, 0 ), -0.273283, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+flag_disable_z = true
+gravity = Vector3( 98, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.25
+scale_random = 0.42
+scale_curve = SubResource( 4 )
+
+[node name="Robot" type="KinematicBody2D"]
+collision_mask = 0
+script = ExtResource( 1 )
+move_speed = 100.0
+friction = 0.05
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="InteractArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+shape = SubResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -16 )
+frames = ExtResource( 2 )
+animation = "Dead"
+
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( 1.52588e-05, 14.3248 )
+emitting = false
+process_material = SubResource( 5 )
+texture = ExtResource( 3 )
+
+[node name="JumpPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

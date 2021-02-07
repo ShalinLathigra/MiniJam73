@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+uniform float jitter : hint_range(0., 10.0);
+uniform sampler2D noise;
+
+float hash(vec2 p) {
+  return fract(sin(dot(p * 17.17, vec2(14.91, 67.31))) * 4791.9511);
+}
+
+void vertex()
+{
+	VERTEX.x += hash(vec2(VERTEX.x * jitter, sin(VERTEX.y * TIME) * jitter)) * sin(TIME * 0.5) * jitter;
+	VERTEX.y += hash(vec2(cos(VERTEX.x * TIME) * jitter, VERTEX.y * jitter)) * cos(pow(TIME, 1.5)) * jitter;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=2]
+period = 33.2
+persistence = 0.797
+
+[sub_resource type="NoiseTexture" id=3]
+noise = SubResource( 2 )
+
+[resource]
+shader = SubResource( 1 )
+shader_param/jitter = 4.029
+shader_param/noise = SubResource( 3 )

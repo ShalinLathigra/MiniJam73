@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Generator.png" type="Texture" id=1]
+[ext_resource path="res://Resources/ButtonFrames.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Components/Generator.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 32 )
+
+[node name="Generator" type="Area2D"]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+flip_h = true
+
+[node name="B1" type="AnimatedSprite" parent="."]
+position = Vector2( -9.85013, 18.9045 )
+rotation = -1.5708
+scale = Vector2( 0.25, 0.25 )
+frames = ExtResource( 2 )
+animation = "Dark"
+offset = Vector2( -15.25, 1.25 )
+flip_v = true
+
+[node name="B2" type="AnimatedSprite" parent="."]
+position = Vector2( 4.77487, 19.2795 )
+rotation = -1.5708
+scale = Vector2( 0.25, 0.25 )
+frames = ExtResource( 2 )
+animation = "Light"
+offset = Vector2( -15.25, 1.25 )
+flip_v = true
+
+[node name="B3" type="AnimatedSprite" parent="."]
+position = Vector2( 20.0249, 19.7795 )
+rotation = -1.5708
+scale = Vector2( 0.25, 0.25 )
+frames = ExtResource( 2 )
+animation = "Mid"
+offset = Vector2( -15.25, 1.25 )
+flip_v = true
+
+[node name="Lever" type="AnimatedSprite" parent="."]
+position = Vector2( -32.5526, 9.72431 )
+frames = ExtResource( 2 )
+animation = "Lever"
+flip_h = true
+[connection signal="animation_finished" from="Lever" to="." method="_on_Lever_animation_finished"]
